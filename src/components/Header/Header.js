@@ -1,7 +1,13 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import auth from "../../firebase.init";
 
 const Header = () => {
+  
+  const [user, loading, error] = useAuthState(auth);
+
+
   return (
     <div className="navbar bg-base-100 container mx-auto">
       <div className="navbar-start">
@@ -73,7 +79,7 @@ const Header = () => {
       <div className="navbar-end">
         <ul className="menu menu-horizontal p-0">
           <li>
-            <Link to="/">Register</Link>
+            <Link to="/register">Register</Link>
           </li>
           <li tabIndex="0">
             <Link to="/">Login</Link>
