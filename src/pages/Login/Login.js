@@ -1,32 +1,28 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import {
-  useCreateUserWithEmailAndPassword,
+  useSignInWithEmailAndPassword,
   useSignInWithGoogle,
-  useUpdateProfile,
 } from "react-firebase-hooks/auth";
-import auth from "../../firebase.init";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import auth from "../../firebase.init";
 
-const Register = () => {
+const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
-
-  const [updateProfile, updating, updateProfileError] = useUpdateProfile(auth);
-
-  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   const onSubmit = async (data) => {
     const { username, email, password } = data;
-    await createUserWithEmailAndPassword(email, password);
-    await updateProfile({ displayName: username });
+    await signInWithEmailAndPassword(email, password);
   };
+
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
   const navigate = useNavigate();
 
@@ -34,7 +30,7 @@ const Register = () => {
     if (user || gUser) {
       navigate("/");
     }
-  }, [gUser, navigate, user]);
+  }, [navigate, user, gUser]);
 
   if (loading || gLoading) {
     return (
@@ -49,23 +45,11 @@ const Register = () => {
         <div className="register-form-body">
           <div className="register-title">
             <h1 className=" text-3xl font-[600] text-center my-4">
-              Register an account
+              Log into your account
             </h1>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-md">
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your username"
-                className="input input-bordered w-96 max-w-xs"
-                {...register("username", { required: true })}
-              />
-              <p className="mt-2 text-red-500">
-                {errors.username && <span>Username is required</span>}
-              </p>
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
@@ -106,7 +90,7 @@ const Register = () => {
               <input
                 className={`btn btn-accent my-4`}
                 type="submit"
-                value="Create an account"
+                value="Sign In"
               />
             </div>
           </form>
@@ -122,4 +106,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
