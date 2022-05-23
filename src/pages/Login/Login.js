@@ -6,6 +6,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
+import useToken from "../../hooks/useToken";
 
 const Login = () => {
   const {
@@ -26,11 +27,14 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+
+  const [token] = useToken(user || gUser);
+
   useEffect(() => {
-    if (user || gUser) {
+    if (token) {
       navigate("/");
     }
-  }, [navigate, user, gUser]);
+  }, [token, navigate]);
 
   if (loading || gLoading) {
     return (

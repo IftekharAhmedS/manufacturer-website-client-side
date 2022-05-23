@@ -31,12 +31,13 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  const [token] = useToken(user || gUser);
 
-  const [token] = useToken(user || gUser)
-
-  if(token){
-    navigate('/')
-  }
+  useEffect(() => {
+    if (token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
 
   if (loading || gLoading) {
     return (
