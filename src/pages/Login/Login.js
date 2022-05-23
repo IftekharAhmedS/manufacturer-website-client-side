@@ -40,10 +40,10 @@ const Login = () => {
     );
   }
   return (
-    <div className="register-area">
-      <div className="register-form flex w-full justify-center">
-        <div className="register-form-body">
-          <div className="register-title">
+    <div className="login-area">
+      <div className="login-form flex w-full justify-center">
+        <div className="login-form-body">
+          <div className="login-title">
             <h1 className=" text-3xl font-[600] text-center my-4">
               Log into your account
             </h1>

@@ -7,6 +7,7 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { useNavigate } from "react-router-dom";
+import useToken from "../../hooks/useToken";
 
 const Register = () => {
   const {
@@ -30,11 +31,12 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user || gUser) {
-      navigate("/");
-    }
-  }, [gUser, navigate, user]);
+
+  const [token] = useToken(user || gUser)
+
+  if(token){
+    navigate('/')
+  }
 
   if (loading || gLoading) {
     return (

@@ -77,6 +77,9 @@ const Header = () => {
           <li tabIndex="0">
             <Link to="/">Blogs</Link>
           </li>
+          <li>
+            <Link to="/add-new-part">Add new part</Link>
+          </li>
         </ul>
       </div>
       <div className="navbar-end">
