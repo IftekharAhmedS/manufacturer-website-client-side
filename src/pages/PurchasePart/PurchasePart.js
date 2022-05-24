@@ -2,26 +2,34 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import swal from "sweetalert";
 import auth from "../../firebase.init";
 
 const PurchasePart = () => {
   const [user, loading, error] = useAuthState(auth);
+  const navivgate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    console.log({ ...data, status: "unpaid" });
     await fetch("http://localhost:5000/purchase/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${localStorage.getItem("accessKey")}`,
       },
-      body: JSON.stringify({ ...data, status: "unpaid" }),
+      body: JSON.stringify({ ...data, partName: name, partPrice: price * data.minimum , status: "unpaid" }),
     });
+    
+    swal({
+      title: "Order has been placed!",
+      icon: "success",
+      button: "Cool!",
+    });
+    navivgate('/dashboard')
   };
   const { id } = useParams();
   const [partsInfo, setPartsInfo] = useState([]);

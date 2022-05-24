@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const AddNewParts = () => {
@@ -8,6 +9,7 @@ const AddNewParts = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navivgate = useNavigate();
 
   const onSubmit = async (data) => {
     fetch("http://localhost:5000/parts", {
@@ -24,6 +26,7 @@ const AddNewParts = () => {
       icon: "success",
       button: "Cool!",
     });
+    navivgate('/')
   };
 
   return (

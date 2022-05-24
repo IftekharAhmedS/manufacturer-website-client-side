@@ -7,6 +7,7 @@ import AddNewParts from "./pages/AddNewParts/AddNewParts";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import MyOrders from "./pages/Dashboard/MyOrders";
 import MyProfile from "./pages/Dashboard/MyProfile";
+import Payment from "./pages/Dashboard/Payment";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -39,6 +40,8 @@ function App() {
             }
           >
             <Route index element={<MyOrders></MyOrders>}></Route>
+            <Route path="my-profile" element={<MyProfile></MyProfile>}></Route>
+            <Route path="payment/:id" element={<Payment></Payment>}></Route>
           </Route>
           <Route
             path="/purchase/:id"
