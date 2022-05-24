@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
+import PurchasePart from "./pages/PurchasePart/PurchasePart";
 import Register from "./pages/Register/Register";
 
 function App() {
@@ -32,6 +33,14 @@ function App() {
             element={
               <RequireAuth>
                 <Dashboard></Dashboard>
+              </RequireAuth>
+            }
+          ></Route>
+          <Route
+            path="/purchase/:id"
+            element={
+              <RequireAuth>
+                <PurchasePart></PurchasePart>
               </RequireAuth>
             }
           ></Route>

@@ -18,7 +18,6 @@ const useToken = (user) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("data", data);
           const accessKey = data.key;
           localStorage.setItem('accessKey', accessKey)
           setToken(accessKey)

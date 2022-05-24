@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const PartCards = (props) => {
   const {
@@ -10,6 +11,12 @@ const PartCards = (props) => {
     price,
     url,
   } = props.data;
+
+  const navigate = useNavigate();
+  const purchasePart = (id) => {
+    navigate(`/purchase/${id}`)
+
+  };
   return (
     <div className="card w-full bg-base-100 shadow-xl">
       <figure>
@@ -17,12 +24,14 @@ const PartCards = (props) => {
       </figure>
       <div className="card-body">
         <h2 className="card-title">{name}</h2>
-        <p>{`${description.slice(0,250)}...`}</p>
+        <p>{`${description.slice(0, 250)}...`}</p>
         <p className="font-semibold text-xl">${price}</p>
-        <p className="font-semibold">Minimum order quantity: {mOrderQuantity} piece</p>
+        <p className="font-semibold">
+          Minimum order quantity: {mOrderQuantity} piece
+        </p>
         <p className="font-semibold">Available: {availableQuantity} piece</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Buy Now</button>
+          <button className="btn btn-primary" onClick={()=> purchasePart(_id)}>Buy Now</button>
         </div>
       </div>
     </div>
