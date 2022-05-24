@@ -5,6 +5,8 @@ import Header from "./components/Header/Header";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import AddNewParts from "./pages/AddNewParts/AddNewParts";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import MyOrders from "./pages/Dashboard/MyOrders";
+import MyProfile from "./pages/Dashboard/MyProfile";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -35,7 +37,9 @@ function App() {
                 <Dashboard></Dashboard>
               </RequireAuth>
             }
-          ></Route>
+          >
+            <Route index element={<MyOrders></MyOrders>}></Route>
+          </Route>
           <Route
             path="/purchase/:id"
             element={
