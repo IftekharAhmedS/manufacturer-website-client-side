@@ -87,7 +87,7 @@ const AddNewParts = () => {
               </label>
               <input
                 type="number"
-                placeholder="Minimum order quantity"
+                placeholder="Available quantity"
                 className="input input-bordered w-96 max-w-xs"
                 {...register("availableQuantity", {
                   required: true,

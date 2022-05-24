@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   useCreateUserWithEmailAndPassword,
@@ -6,7 +6,7 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useToken from "../../hooks/useToken";
 
 const Register = () => {
@@ -32,12 +32,16 @@ const Register = () => {
   const navigate = useNavigate();
 
   const [token] = useToken(user || gUser);
+  const [regError, setRegError] = useState("");
 
   useEffect(() => {
+    if (error || gError) {
+      setRegError(error.message);
+    }
     if (token) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, [token, navigate, error, gError]);
 
   if (loading || gLoading) {
     return (
@@ -85,6 +89,7 @@ const Register = () => {
                 {errors.email?.type === "required" && (
                   <span>Email is required</span>
                 )}
+                {regError}
                 {errors.email?.type === "pattern" && (
                   <span>Please enter a valid email</span>
                 )}
@@ -113,6 +118,13 @@ const Register = () => {
               />
             </div>
           </form>
+          <p>
+            Already have one?{" "}
+            <Link to="/login" className=" text-teal-500">
+              Login
+            </Link>{" "}
+            instead
+          </p>
         </div>
       </div>
       <div className="divider max-w-lg mx-auto">OR</div>

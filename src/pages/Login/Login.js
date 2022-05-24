@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useSignInWithEmailAndPassword,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import useToken from "../../hooks/useToken";
 
@@ -27,14 +27,18 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-
   const [token] = useToken(user || gUser);
 
+  const [loginError, setLoginError] = useState("");
+
   useEffect(() => {
+    if (error || gError) {
+      setLoginError(error.message);
+    }
     if (token) {
       navigate("/");
     }
-  }, [token, navigate]);
+  }, [token, navigate, error, gError]);
 
   if (loading || gLoading) {
     return (
@@ -90,6 +94,7 @@ const Login = () => {
                 {errors.password?.type === "minLength" && (
                   <span>Password must be at least 6 characters</span>
                 )}
+                {loginError}
               </p>
               <input
                 className={`btn btn-accent my-4`}
@@ -98,6 +103,17 @@ const Login = () => {
               />
             </div>
           </form>
+          <p>
+            Don't have an account?{" "}
+            <Link to="/register" className=" text-teal-500">
+              Create one
+            </Link>
+          </p>
+          <p className="text-center">
+            <Link to="/forget-password" className=" text-indigo-500">
+              Forget password
+            </Link>
+          </p>
         </div>
       </div>
       <div className="divider max-w-lg mx-auto">OR</div>
