@@ -1,13 +1,9 @@
-import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import auth from "../../firebase.init";
-
-const stripePromise = loadStripe('pk_test_51L2pMqAzEnLuJbAznvK02AZoRb7uMJ1TteqcfG1eE2eFlcWy44fo63UN8DoGNMlp2YxwPTiBqVmt4bw4TTrqWz7t00bG457rQO');
-
 
 const PurchasePart = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -16,7 +12,17 @@ const PurchasePart = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    console.log({...data, status: 'unpaid'});
+    await fetch('http://localhost:5000/purchase/', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+      },
+      body: JSON.stringify({...data, status: 'unpaid'})
+    })
+  };
   const { id } = useParams();
   const [partsInfo, setPartsInfo] = useState([]);
   useEffect(() => {
@@ -58,7 +64,7 @@ const PurchasePart = () => {
       <div className="divider divider-horizontal"></div>
       <div className="card w-6/12 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title text-center text-2xl">Purchase: {name}</h2>
+          <h2 className="card-title text-center text-2xl">Order: {name}</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control w-full max-w-md">
               <label className="label">
@@ -106,7 +112,7 @@ const PurchasePart = () => {
                   },
                   max: {
                     value: availableQuantity,
-                  }
+                  },
                 })}
               />
               <p className="mt-2 text-red-500">
@@ -120,14 +126,30 @@ const PurchasePart = () => {
                   <span>You cannot go higher than available parts</span>
                 )}
               </p>
+              <label className="label">
+                <span className="label-text">Phone</span>
+              </label>
+              <input
+                type="number"
+                placeholder="Enter phone number"
+                className="input input-bordered w-96 max-w-xs"
+                {...register("phone", {
+                  required: true,
+                })}
+              />
+              <p className="mt-2 text-red-500">
+                {errors.phone?.type === "required" && (
+                  <span>Phone number is required</span>
+                )}
+              </p>
             </div>
             <div className="card-actions justify-end">
               <input
-                className={`btn btn-primary my-4 ${errors.minimum?.type === "max" && 'btn-disabled'
-                } ${errors.minimum?.type === "min" && 'btn-disabled'
-              }`}
+                className={`btn btn-primary my-4 ${
+                  errors.minimum?.type === "max" && "btn-disabled"
+                } ${errors.minimum?.type === "min" && "btn-disabled"}`}
                 type="submit"
-                value="Pay now"
+                value="Place order"
               />
             </div>
           </form>
