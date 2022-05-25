@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import auth from "../../firebase.init";
 
 const MyOrders = () => {
@@ -18,6 +20,40 @@ const MyOrders = () => {
         .then((data) => setPurchaseData(data));
     }
   }, [user]);
+
+  const handleDelete = (id) => {
+    swal({
+      title: "Are you sure?",
+      text: "Do you really want to cancel the order?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        const { data } = await axios.delete(
+          `http://localhost:5000/purchase/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+            },
+          }
+        );
+        if (data.deletedCount > 0) {
+          const filterItems = purchaseData.filter((item) => item._id !== id);
+          setPurchaseData(filterItems);
+        }
+
+        swal("Your order has been canceled", {
+          icon: "success",
+        });
+      } else {
+        swal("Your order is safe", {
+          icon: "error",
+        });
+      }
+    });
+  };
+
   return (
     <div className="overflow-x-auto w-full">
       <table className="table table-zebra w-full">
@@ -73,6 +109,12 @@ const MyOrders = () => {
                       className="btn btn-primary btn-md"
                     >
                       Pay now
+                    </button>
+                    <button
+                      onClick={() => handleDelete(purchases._id)}
+                      className="btn btn-warning btn-md ml-2"
+                    >
+                      Cancel
                     </button>
                   </>
                 )}
