@@ -12,8 +12,8 @@ const MyOrders = () => {
       fetch(`http://localhost:5000/purchase?email=${user.email}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("accessKey")}`,
-        }
-    })
+        },
+      })
         .then((res) => res.json())
         .then((data) => setPurchaseData(data));
     }
@@ -24,6 +24,7 @@ const MyOrders = () => {
         <thead>
           <tr>
             <th>Product</th>
+            <th>Amount</th>
             <th>Price</th>
             <th>Status</th>
             <th>Transaction ID</th>
@@ -39,12 +40,42 @@ const MyOrders = () => {
                   </div>
                 </div>
               </td>
+              <td>{purchases?.minimum}x</td>
+              <td>${purchases?.partPrice}</td>
               <td>
-                ${purchases?.partPrice}
+                {(purchases.status === "unpaid" && (
+                  <div className="badge badge-md badge-error ">
+                    {purchases?.status}
+                  </div>
+                )) ||
+                  (purchases.status === "paid" && (
+                    <div className="badge badge-md badge-success ">
+                      {purchases?.status}
+                    </div>
+                  )) ||
+                  (purchases.status === "pending" && (
+                    <div className="badge badge-md badge-warning ">
+                      {purchases?.status}
+                    </div>
+                  ))}
               </td>
-              <td>{(purchases.status === 'unpaid' && <div className="badge badge-md badge-error ">{purchases?.status}</div>) || (purchases.status === 'paid' && <div className="badge badge-md badge-success ">{purchases?.status}</div>) || (purchases.status === 'pending' && <div className="badge badge-md badge-warning ">{purchases?.status}</div>) }</td>
               <th>
-                <button onClick={() => navigate(`/dashboard/payment/${purchases._id}`)} className="btn btn-primary btn-md">Pay now</button>
+                {purchases.status === "pending" ? (
+                  <>
+                    <p>{purchases?.transactionId}</p>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() =>
+                        navigate(`/dashboard/payment/${purchases._id}`)
+                      }
+                      className="btn btn-primary btn-md"
+                    >
+                      Pay now
+                    </button>
+                  </>
+                )}
               </th>
             </tr>
           ))}

@@ -1,14 +1,18 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 
 const CheckoutForm = ({ data }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [clientSecret, setClientSecret] = useState("");
+  const [cardError, setCardError] = useState("");
+  const navigate = useNavigate();
 
+    const { _id, partPrice } = data;
   useEffect(() => {
-    const { partPrice } = data;
 
     fetch("http://localhost:5000/create-payment-intent", {
       method: "POST",
@@ -24,7 +28,7 @@ const CheckoutForm = ({ data }) => {
           setClientSecret(data.clientSecret);
         }
       });
-  }, [data]);
+  }, [data, partPrice]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,6 +53,50 @@ const CheckoutForm = ({ data }) => {
     } else {
       console.log("[PaymentMethod]", paymentMethod);
     }
+
+    const { paymentIntent, error: intentError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: data.name,
+            email: data.email,
+          },
+        },
+      });
+      if(intentError){
+        setCardError(intentError.message)
+      }
+      else{
+        console.log(paymentIntent)
+        swal({
+          title: "Payment Successful!",
+          icon: "success",
+          button: "Cool!",
+        })
+
+        const payment = {
+          purchase: _id,
+          transactionId: paymentIntent.id,
+        }
+
+        fetch(`http://localhost:5000/purchase/${_id}`, {
+          method: "PATCH",
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+          },
+          body: JSON.stringify(payment)
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data)
+        })
+
+        navigate('/dashboard')
+
+
+      }
   };
 
   return (
@@ -76,6 +124,7 @@ const CheckoutForm = ({ data }) => {
       >
         Pay
       </button>
+      <p>{cardError}</p>
     </form>
   );
 };

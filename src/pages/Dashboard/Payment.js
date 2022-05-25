@@ -28,11 +28,13 @@ const Payment = () => {
     );
   }
   return (
-    <div className="card w-96 bg-base-100 shadow-xl">
-      <div className="card-body">
-        <Elements stripe={stripePromise}>
-          <CheckoutForm data={purchaseItem} />
-        </Elements>
+    <div className="payment-container-card flex justify-center items-center align-middle">
+      <div className="card w-96 bg-base-100 shadow-xl">
+        <div className="card-body">
+          <Elements stripe={stripePromise}>
+            <CheckoutForm data={purchaseItem} />
+          </Elements>
+        </div>
       </div>
     </div>
   );
