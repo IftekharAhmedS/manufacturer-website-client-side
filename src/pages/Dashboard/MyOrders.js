@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 
 const MyOrders = () => {
   const [user, loading, error] = useAuthState(auth);
   const [purchaseData, setPurchaseData] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/purchase?email=${user.email}`)
+      fetch(`http://localhost:5000/purchase?email=${user.email}`, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+        }
+    })
         .then((res) => res.json())
         .then((data) => setPurchaseData(data));
     }
@@ -38,7 +44,7 @@ const MyOrders = () => {
               </td>
               <td>{(purchases.status === 'unpaid' && <div className="badge badge-md badge-error ">{purchases?.status}</div>) || (purchases.status === 'paid' && <div className="badge badge-md badge-success ">{purchases?.status}</div>) || (purchases.status === 'pending' && <div className="badge badge-md badge-warning ">{purchases?.status}</div>) }</td>
               <th>
-                <button className="btn btn-primary btn-md">Pay now</button>
+                <button onClick={() => navigate(`/dashboard/payment/${purchases._id}`)} className="btn btn-primary btn-md">Pay now</button>
               </th>
             </tr>
           ))}
