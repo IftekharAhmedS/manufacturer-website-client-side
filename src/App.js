@@ -4,6 +4,7 @@ import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import AddNewParts from "./pages/AddNewParts/AddNewParts";
+import AddReview from "./pages/Dashboard/AddReview";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import MyOrders from "./pages/Dashboard/MyOrders";
 import MyProfile from "./pages/Dashboard/MyProfile";
@@ -42,6 +43,7 @@ function App() {
             <Route index element={<MyOrders></MyOrders>}></Route>
             <Route path="my-profile" element={<MyProfile></MyProfile>}></Route>
             <Route path="payment/:id" element={<Payment></Payment>}></Route>
+            <Route path="add-a-review" element={<AddReview></AddReview>}></Route>
           </Route>
           <Route
             path="/purchase/:id"
