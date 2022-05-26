@@ -49,6 +49,7 @@ function App() {
             <Route path="my-profile" element={<MyProfile></MyProfile>}></Route>
             <Route path="payment/:id" element={<Payment></Payment>}></Route>
             <Route path="add-a-review" element={<AddReview></AddReview>}></Route>
+            <Route path="add-a-part" element={<AddNewParts></AddNewParts>}></Route>
           </Route>
           <Route
             path="/purchase/:id"
