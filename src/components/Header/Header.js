@@ -94,6 +94,9 @@ const Header = () => {
           <li tabIndex="0">
             <Link to="/blogs">Blogs</Link>
           </li>
+          <li>
+            <Link to="/portfolio">Portfolio</Link>
+          </li>
           {user ? (
             <>
               <li>
