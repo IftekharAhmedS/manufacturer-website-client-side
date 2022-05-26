@@ -11,10 +11,9 @@ const CheckoutForm = ({ data }) => {
   const [cardError, setCardError] = useState("");
   const navigate = useNavigate();
 
-    const { _id, partPrice } = data;
+  const { _id, partPrice } = data;
   useEffect(() => {
-
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://manufacturer-site.herokuapp.com/create-payment-intent", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -64,39 +63,36 @@ const CheckoutForm = ({ data }) => {
           },
         },
       });
-      if(intentError){
-        setCardError(intentError.message)
-      }
-      else{
-        console.log(paymentIntent)
-        swal({
-          title: "Payment Successful!",
-          icon: "success",
-          button: "Cool!",
-        })
+    if (intentError) {
+      setCardError(intentError.message);
+    } else {
+      console.log(paymentIntent);
+      swal({
+        title: "Payment Successful!",
+        icon: "success",
+        button: "Cool!",
+      });
 
-        const payment = {
-          purchase: _id,
-          transactionId: paymentIntent.id,
-        }
+      const payment = {
+        purchase: _id,
+        transactionId: paymentIntent.id,
+      };
 
-        fetch(`http://localhost:5000/purchase/${_id}`, {
-          method: "PATCH",
-          headers: {
-            'content-type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem("accessKey")}`,
-          },
-          body: JSON.stringify(payment)
-        })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data)
-        })
+      fetch(`https://manufacturer-site.herokuapp.com/purchase/${_id}`, {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+        },
+        body: JSON.stringify(payment),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
 
-        navigate('/dashboard')
-
-
-      }
+      navigate("/dashboard");
+    }
   };
 
   return (

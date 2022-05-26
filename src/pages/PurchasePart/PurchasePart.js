@@ -15,31 +15,39 @@ const PurchasePart = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    await fetch("http://localhost:5000/purchase/", {
+    await fetch("https://manufacturer-site.herokuapp.com/purchase/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${localStorage.getItem("accessKey")}`,
       },
-      body: JSON.stringify({ ...data, partName: name, partPrice: price * data.minimum , status: "unpaid" }),
+      body: JSON.stringify({
+        ...data,
+        partName: name,
+        partPrice: price * data.minimum,
+        status: "unpaid",
+      }),
     });
-    
+
     swal({
       title: "Order has been placed!",
       icon: "success",
       button: "Cool!",
     });
-    navivgate('/dashboard')
+    navivgate("/dashboard");
   };
   const { id } = useParams();
   const [partsInfo, setPartsInfo] = useState([]);
   useEffect(() => {
     const getItems = async () => {
-      const { data } = await axios.get(`http://localhost:5000/parts/${id}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessKey")}`,
-        },
-      });
+      const { data } = await axios.get(
+        `https://manufacturer-site.herokuapp.com/parts/${id}`,
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+          },
+        }
+      );
       setPartsInfo(data);
     };
     getItems();

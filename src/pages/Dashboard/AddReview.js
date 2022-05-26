@@ -15,7 +15,7 @@ const AddReview = () => {
   const navivgate = useNavigate();
 
   const onSubmit = async (data) => {
-    fetch("http://localhost:5000/reviews", {
+    fetch("https://manufacturer-site.herokuapp.com/reviews", {
       method: "POST",
       headers: {
         "content-type": "application/json",

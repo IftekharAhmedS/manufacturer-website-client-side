@@ -11,11 +11,14 @@ const MyOrders = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/purchase?email=${user.email}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("accessKey")}`,
-        },
-      })
+      fetch(
+        `https://manufacturer-site.herokuapp.com/purchase?email=${user.email}`,
+        {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("accessKey")}`,
+          },
+        }
+      )
         .then((res) => res.json())
         .then((data) => setPurchaseData(data));
     }
@@ -31,7 +34,7 @@ const MyOrders = () => {
     }).then(async (willDelete) => {
       if (willDelete) {
         const { data } = await axios.delete(
-          `http://localhost:5000/purchase/${id}`,
+          `https://manufacturer-site.herokuapp.com/purchase/${id}`,
           {
             headers: {
               authorization: `Bearer ${localStorage.getItem("accessKey")}`,

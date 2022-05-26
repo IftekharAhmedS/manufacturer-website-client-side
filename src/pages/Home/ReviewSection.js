@@ -4,7 +4,7 @@ import ReviewCards from "./ReviewCards";
 const ReviewSection = () => {
   const [review, setReview] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:5000/reviews", {
+    fetch("https://manufacturer-site.herokuapp.com/reviews", {
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${localStorage.getItem("accessKey")}`,
@@ -15,7 +15,9 @@ const ReviewSection = () => {
   }, []);
   return (
     <div className="review-cards grid grid-cols-1 sm:grid-cols-3 gap-6 mx-auto w-10/12">
-        {review.map(data => <ReviewCards key={data._id} data={data}></ReviewCards>)}
+      {review.map((data) => (
+        <ReviewCards key={data._id} data={data}></ReviewCards>
+      ))}
     </div>
   );
 };

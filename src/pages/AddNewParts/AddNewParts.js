@@ -12,7 +12,7 @@ const AddNewParts = () => {
   const navivgate = useNavigate();
 
   const onSubmit = async (data) => {
-    fetch("http://localhost:5000/parts", {
+    fetch("https://manufacturer-site.herokuapp.com/parts", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -26,7 +26,7 @@ const AddNewParts = () => {
       icon: "success",
       button: "Cool!",
     });
-    navivgate('/')
+    navivgate("/");
   };
 
   return (

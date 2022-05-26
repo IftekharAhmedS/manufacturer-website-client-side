@@ -19,7 +19,7 @@ const MyProfile = () => {
   const [userEducation, setUserEducation] = useState({});
 
   const email = user?.email;
-  const url = `http://localhost:5000/users/${email}`;
+  const url = `https://manufacturer-site.herokuapp.com/users/${email}`;
 
   const {
     register,
@@ -66,8 +66,7 @@ const MyProfile = () => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) => {
-      });
+      .then((data) => {});
   };
   return (
     <div className="container">
