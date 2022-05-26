@@ -71,48 +71,48 @@ const AddReview = () => {
               <label className="label">
                 <span className="label-text">Rating</span>
               </label>
-              <div class="rating">
+              <div className="rating">
                 <input
                   type="radio"
                   name="rating-2"
-                  value='1'
+                  value="1"
                   {...register("rating", { required: true })}
-                  class="mask mask-star-2 bg-orange-400"
+                  className="mask mask-star-2 bg-orange-400"
                 />
                 <input
                   type="radio"
                   name="rating-2"
-                  value='2'
+                  value="2"
                   {...register("rating", { required: true })}
-                  class="mask mask-star-2 bg-orange-400"
+                  className="mask mask-star-2 bg-orange-400"
                 />
                 <input
                   type="radio"
                   name="rating-2"
-                  value='3'
+                  value="3"
                   {...register("rating", { required: true })}
-                  class="mask mask-star-2 bg-orange-400"
+                  className="mask mask-star-2 bg-orange-400"
                 />
                 <input
                   type="radio"
                   name="rating-2"
-                  value='4'
+                  value="4"
                   {...register("rating", { required: true })}
-                  class="mask mask-star-2 bg-orange-400"
+                  className="mask mask-star-2 bg-orange-400"
                 />
                 <input
                   type="radio"
                   name="rating-2"
-                  value='5'
+                  value="5"
                   {...register("rating", { required: true })}
-                  class="mask mask-star-2 bg-orange-400"
+                  className="mask mask-star-2 bg-orange-400"
                 />
               </div>
-                <p className="mt-2 text-red-500">
-                  {errors.rating?.type === "required" && (
-                    <span>Rating is required</span>
-                  )}
-                </p>
+              <p className="mt-2 text-red-500">
+                {errors.rating?.type === "required" && (
+                  <span>Rating is required</span>
+                )}
+              </p>
               <input
                 className={`btn btn-accent my-4`}
                 type="submit"

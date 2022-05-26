@@ -40,7 +40,7 @@ const Header = () => {
               <Link to="/">Home</Link>
             </li>
             <li tabIndex="0">
-              <Link to="/">Blogs</Link>
+              <Link to="/blogs">Blogs</Link>
             </li>
             {user ? (
               <>
@@ -92,7 +92,7 @@ const Header = () => {
             <Link to="/">Home</Link>
           </li>
           <li tabIndex="0">
-            <Link to="/">Blogs</Link>
+            <Link to="/blogs">Blogs</Link>
           </li>
           {user ? (
             <>

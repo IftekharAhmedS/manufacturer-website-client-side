@@ -10,8 +10,11 @@ import MyOrders from "./pages/Dashboard/MyOrders";
 import MyProfile from "./pages/Dashboard/MyProfile";
 import Payment from "./pages/Dashboard/Payment";
 import ForgetPassword from "./pages/ForgetPassword/ForgetPassword";
+import Blogs from "./pages/Home/Blogs";
 import Home from "./pages/Home/Home";
+import Portfolio from "./pages/Home/Portfolio";
 import Login from "./pages/Login/Login";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import PurchasePart from "./pages/PurchasePart/PurchasePart";
 import Register from "./pages/Register/Register";
 
@@ -22,6 +25,8 @@ function App() {
       <div className="page-content min-h-screen">
         <Routes>
           <Route path="/" element={<Home></Home>}></Route>
+          <Route path="/portfolio" element={<Portfolio></Portfolio>}></Route>
+          <Route path="/blogs" element={<Blogs></Blogs>}></Route>
           <Route path="/register" element={<Register></Register>}></Route>
           <Route path="/login" element={<Login></Login>}></Route>
           <Route
@@ -53,6 +58,7 @@ function App() {
               </RequireAuth>
             }
           ></Route>
+          <Route path="*" element={<PageNotFound></PageNotFound>}></Route>
         </Routes>
       </div>
       <Footer></Footer>
